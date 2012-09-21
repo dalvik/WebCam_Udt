@@ -58,7 +58,7 @@ written by
 #include "md5.h"
 #include "common.h"
 
-uint64_t CTimer::s_ullCPUFrequency = CTimer::readCPUFrequency();
+uint64_t CTimer::s_ullCPUFrequency = 1;//CTimer::readCPUFrequency();
 #ifndef WIN32
    pthread_mutex_t CTimer::m_EventLock = PTHREAD_MUTEX_INITIALIZER;
    pthread_cond_t CTimer::m_EventCond = PTHREAD_COND_INITIALIZER;
@@ -127,7 +127,7 @@ uint64_t CTimer::readCPUFrequency()
 
 uint64_t CTimer::getCPUFrequency()
 {
-   return s_ullCPUFrequency;
+   return 1;//s_ullCPUFrequency;
 }
 
 void CTimer::sleep(const uint64_t& interval)

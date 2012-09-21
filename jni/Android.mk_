@@ -1,0 +1,27 @@
+# A simple test for the minimal standard C++ library
+#
+
+LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+
+#LOCAL_LDFLIBS := $(LOCAL_PATH)/libm.a
+
+LOCAL_LDLIBS += -L$(SYSROOT)/usr/lib -llog -lm
+
+LOCAL_MODULE := udt 
+
+# Also need the JNI headers.
+LOCAL_C_INCLUDES += \
+	$(JNI_H_INCLUDE)
+
+LOCAL_SRC_FILES :=  \
+                   udttools.cpp
+
+CAL_SHARED_LIBRARIES := \
+	libutils
+
+LOCAL_PRELINK_MODULE := false
+
+include $(BUILD_SHARED_LIBRARY)

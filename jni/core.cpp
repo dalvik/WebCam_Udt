@@ -1125,18 +1125,17 @@ int CUDT::recv(char* data, const int& len)
 {
    if (UDT_DGRAM == m_iSockType)
       throw CUDTException(5, 10, 0);
-
    // throw an exception if not connected
-   if (!m_bConnected)
+   if (!m_bConnected){
       throw CUDTException(2, 2, 0);
-   else if ((m_bBroken || m_bClosing) && (0 == m_pRcvBuffer->getRcvDataSize()))
+   }  else if ((m_bBroken || m_bClosing) && (0 == m_pRcvBuffer->getRcvDataSize())) {
       throw CUDTException(2, 1, 0);
-
-   if (len <= 0)
+    }
+   
+   if (len <= 0){
       return 0;
-
+   }
    CGuard recvguard(m_RecvLock);
-
    if (0 == m_pRcvBuffer->getRcvDataSize())
    {
       if (!m_bSynRecving)
@@ -1147,8 +1146,9 @@ int CUDT::recv(char* data, const int& len)
             pthread_mutex_lock(&m_RecvDataLock);
             if (m_iRcvTimeOut < 0) 
             { 
-               while (!m_bBroken && m_bConnected && !m_bClosing && (0 == m_pRcvBuffer->getRcvDataSize()))
+               while (!m_bBroken && m_bConnected && !m_bClosing && (0 == m_pRcvBuffer->getRcvDataSize())){
                   pthread_cond_wait(&m_RecvDataCond, &m_RecvDataLock);
+		}
             }
             else
             {
@@ -1189,13 +1189,12 @@ int CUDT::recv(char* data, const int& len)
    }
 
    // throw an exception if not connected
-   if (!m_bConnected)
+   if (!m_bConnected){
       throw CUDTException(2, 2, 0);
-   else if ((m_bBroken || m_bClosing) && (0 == m_pRcvBuffer->getRcvDataSize()))
+    }  else if ((m_bBroken || m_bClosing) && (0 == m_pRcvBuffer->getRcvDataSize())) {
       throw CUDTException(2, 1, 0);
-
+     }
    int res = m_pRcvBuffer->readBuffer(data, len);
-
    if (m_pRcvBuffer->getRcvDataSize() <= 0)
    {
       // read is not available any more
